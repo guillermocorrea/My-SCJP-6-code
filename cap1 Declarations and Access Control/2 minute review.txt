@@ -1,0 +1,246 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+Legal Identifiers
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+¦ Identifiers must start with a letter, a currency character ($), or a connecting
+  character such as the underscore ( _ ). Identifiers cannot start with a number!
+
+¦ After the first character, identifiers can contain any combination of letters,
+currency characters, connecting characters, or numbers.
+
+¦ In practice, there is no limit to the number of characters an identifier can
+contain.
+
+¦ You can't use a Java keyword as an identifier. Table 1-1 lists all of the Java
+keywords including one new one for 5.0, enum.
+
+¦ Identifiers in Java are case-sensitive; foo and FOO are two different identifiers.
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+Access Modifiers
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+-The protected and default access control levels are almost identical, but with one
+critical difference. A default member may be accessed only if the class accessing the
+member belongs to the same package, whereas a protected member can be accessed
+(through inheritance) by a subclass even if the subclass is in a different package.
+
+-For a subclass outside the package, the protected member can be accessed only
+through inheritance.
+
+-You can be certain that any local variable declared with an access modifier will
+not compile.
+
+Table 1-2 Determining Access to Class Members pag. 77
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+Nonaccess Member Modifiers
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+
+- final, abstract, transient, synchronized, native, strictfp, static.
+
+-There is only one modifier that can ever be applied to local
+variables: final.
+
+- Methodos Final Arguments: public Record getRecord(int fileNumber, final int recordNumber) {} //it works!
+
+- abstract: public abstract void showSample();
+Notice that the abstract method ends with a semicolon instead of curly braces.
+It is illegal to have even a single abstract method in a class that is not explicitly
+declared abstract!
+
+public class IllegalClass{
+    public abstract void doIt();
+}
+// Compile Error. class IllegalClass must be declared abstract.
+
+- The first concrete subclass of an abstract class must implement all abstract
+methods of the superclass.
+
+- Finally, you need to know that the abstract modifier can never be combined
+with the static modifier.
+
+abstract static void doStuff(); // MyClass.java:2: illegal combination of modifiers: abstract and static abstract static void doStuff();
+
+- synchronized modifier can be applied only to methods—not variables, not classes, just methods. A typical synchronized
+declaration looks like this:
+
+public synchronized Record retrieveUserInfo(int id) { }
+
+- native can be applied only to methods—not classes, not variables, just methods.
+Note that a native method's body must be a semicolon (;) (like abstract methods),
+indicating that the implementation is omitted.
+
+- strictfp can modify a class or method declaration, and that a variable can never be declared strictfp.
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+Methods with Variable Argument Lists (var-args)
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+- arguments The things you specify between the parentheses when you're invoking a method:
+doStuff("a", 2); // invoking doStuff, so a & 2 are arguments
+
+- parameters The things in the method's signature that indicate what the method must receive when it's invoked:
+void doStuff(String s, int a) { } // we're expecting two parameters: String and int
+
+- We'll cover using var-arg methods more in the next few chapters, for now let's
+review the declaration rules for var-args:
+
+¦ Var-arg type When you declare a var-arg parameter, you must specify the
+type of the argument(s) this parameter of your method can receive. (This can be a primitive type or an object type.)
+
+¦ Basic syntax To declare a method using a var-arg parameter, you follow the type with an ellipsis (...), a space, 
+and then the name of the array that will hold the parameters received.
+
+¦ Other parameters It's legal to have other parameters in a method that uses a var-arg.
+
+¦ Var-args limits The var-arg must be the last parameter in the method's signature, and you can have only one var-arg 
+in a method.
+
+Let's look at some legal and illegal var-arg declarations:
+
+Legal:
+
+void doStuff(int... x) { } // expects from 0 to many ints as parameters
+void doStuff2(char c, int... x) { } // expects first a char, then 0 to many ints
+void doStuff3(Animal... animal) { } // 0 to many Animals
+
+Illegal:
+void doStuff4(int x...) { } // bad syntax
+void doStuff5(int... x, char... y) { } // too many var-args
+void doStuff6(String... s, byte b) { } // var-arg must be last
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+Constructor Declarations
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+A key difference is that a constructor can't ever, ever, ever, have a return type…ever!
+Constructor declarations can however have all of the normal access modifiers, and
+they can take arguments (including var-args), just like methods. The other BIG
+RULE, to understand about constructors is that they must have the same name as
+the class in which they are declared. Constructors can't be marked static (they
+are after all associated with object instantiation), they can't be marked final
+or abstract (because they can't be overridden).
+
+Here are some legal and illegal constructor declarations:
+
+class Foo2 {
+// legal constructors
+Foo2() { }
+private Foo2(byte b) { }
+Foo2(int x) { }
+Foo2(int x, int... y) { }
+// illegal constructors
+void Foo2() { } // it's a method, not a constructor
+Foo() { } // not a method or a constructor
+Foo2(short s); // looks like an abstract method
+static Foo2(float f) { } // can't be static
+final Foo2(long x) { } // can't be final
+abstract Foo2(char c) { } // can't be abstract
+Foo2(int... x, int t) { } // bad var-arg syntax
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+Declaring Primitives and Primitive Ranges
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+important to understand that for the integer types the sequence from small to big is:
+ byte, short, int, long, and that doubles are bigger than floats.
+You will also need to know that the number types (both integer and floatingpoint types) are all signed, 
+and how that affects their ranges.
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+Instance Variables
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+Instance variables are defined inside the class, but outside of any method, and
+are only initialized when the class is instantiated. Instance variables are the fields
+that belong to each unique object.
+
+For the exam, you need to know that instance variables
+
+¦ Can use any of the four access levels (which means they can be marked with
+any of the three access modifiers)
+¦ Can be marked final
+¦ Can be marked transient
+¦ Cannot be marked abstract
+¦ Cannot be marked synchronized
+¦ Cannot be marked strictfp
+¦ Cannot be marked native
+¦ Cannot be marked static, because then they'd become class variables.
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+Array Declarations
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+Arrays are declared by stating the type of elements the array will hold (an
+object or a primitive), followed by square brackets to either side of the identifier.
+
+Declaring an Array of Primitives
+int[] key; // Square brackets before name (recommended)
+int key []; // Square brackets after name (legal but less readable)
+
+Declaring an Array of Object References
+Thread[] threads; // Recommended
+Thread threads []; // Legal but less readable
+
+String[][][] occupantName;
+String[] managerName [];
+
+It is never legal to include the size of the array in your declaration.
+Yes, we know you can do that in some other languages, which is why you might see a
+question or two that include code similar to the following:
+int[5] scores;
+The preceding code won’t compile. Remember, the JVM doesn’t allocate space until
+you actually instantiate the array object. That’s when size matters.
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+Final Variables
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+what does it mean to have a final object reference variable? A reference variable
+marked final can't ever be reassigned to refer to a different object. The data within
+the object can be modified, but the reference variable cannot be changed.
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+Transient Variables
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+If you mark an instance variable as transient, you're telling the JVM to skip
+(ignore) this variable when you attempt to serialize the object containing it.
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+Volatile Variables
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+The volatile modifier tells the JVM that a thread accessing the variable must
+always reconcile its own private copy of the variable with the master copy in
+memory. Say what? Don't worry about it. For the exam, all you need to know about
+volatile is that, as with transient, it can be applied only to instance variables.
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+Static Variables and Methods
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+The static modifier is used to create variables and methods that will exist
+independently of any instances created for the class.
+
+Things you can mark as static:
+¦ Methods
+¦ Variables
+¦ A class nested within another class, but not within a method (more on this in
+Chapter 8).
+¦ Initialization blocks
+
+Things you can't mark as static:
+¦ Constructors (makes no sense; a constructor is used only to create instances)
+¦ Classes (unless they are nested)
+¦ Interfaces
+¦ Method local inner classes (we'll explore this in Chapter 8)
+¦ Inner class methods and instance variables
+¦ Local variables
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+Declaring Enums
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+Enums can be declared as their own separate class, or as a class member, however they must not be declared within a method!
+
+Declaring an enum outside a class:
+enum CoffeeSize { BIG, HUGE, OVERWHELMING } // this cannot be private or protected
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77

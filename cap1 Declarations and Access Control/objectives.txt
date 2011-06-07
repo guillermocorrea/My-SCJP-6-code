@@ -1,0 +1,7 @@
+Declare Classes & Interfaces
+
+Develop Interfaces & Abstract Classes
+
+Use Primitives, Arrays, Enums, & Legal Identifiers
+
+Use Static Methods, JavaBeans Naming, & Var-Args
